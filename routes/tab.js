@@ -1,15 +1,14 @@
 const express = require('express');
 const router = express.Router();
-// let router = express.Router({ mergeParams : true });
-
-const tabController = require('../controllers/tab.controller')
+const tabController = require('../controllers/tab.controller');
+const { verifyToken } = require('../controllers/auth.controller');
 
 router.route('/tab')
-.get(tabController.getAllTab)
-.post(tabController.createTab)
+.get(verifyToken, tabController.getAllTab)
+.post(verifyToken, tabController.createTab)
 
 router.route('/:tabId/series')
-.get(tabController.getTabWithSerie)
-.post(tabController.addSerieToTab)
+.get(verifyToken, tabController.getTabWithSerie)
+.post(verifyToken, tabController.addSerieToTab)
 
 module.exports = router

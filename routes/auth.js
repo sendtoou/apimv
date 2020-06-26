@@ -1,0 +1,14 @@
+const router = require('express').Router();
+const authController = require('../controllers/auth.controller')
+const { verifyToken } = require('../controllers/auth.controller');
+
+router.route('/tokencheck')
+.get(verifyToken, authController.ensureAuthen)
+
+router.route('/register')
+.post(authController.register)
+
+router.route('/login')
+.post(authController.login)
+
+module.exports = router

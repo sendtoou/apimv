@@ -8,6 +8,7 @@ const tabSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref:'serie'
   }]
-});
+}, { timestamps: true });
+
 const Tab = mongoose.model('tab', tabSchema)
 module.exports = Tab
