@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon --exec babel-node app.js"
   },
   "author": "jindanuch",
   "license": "ISC",
@@ -15,10 +15,19 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^2.2.0",
+    "lodash": "^4.17.15",
     "mongoose": "^5.9.19",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.10.3",
+    "@babel/core": "^7.10.3",
+    "@babel/node": "^7.10.3",
+    "@babel/plugin-transform-runtime": "^7.10.4",
+    "@babel/preset-env": "^7.10.3",
+    "@babel/preset-flow": "^7.10.1",
+    "@babel/register": "^7.10.4",
     "nodemon": "^2.0.3"
   }
 }

@@ -1,0 +1,10 @@
+export type UserType 
+error: Type aliases can only be used in TypeScript files
+Fix: Code -> Preferences -> Settings -> Extensions -> Scroll down and find "Edit in settings.json". Actually find the one under this: Include Languages Enable Emmet abbreviations in languages that are not supported by default. Add a mapping here between the language and emmet supported language. E.g.: {"vue-html": "html", "javascript": "javascriptreact"} click on Edit in settings.json and add this: "javascript.validate.enable": false.
+
+// babel
+npm install --save-dev @babel/preset-env @babel/cli @babel/core @babel/preset-flow
+.babelrc file insert 
+{
+  "presets": ["@babel/preset-env", "@babel/preset-flow"]
+}
