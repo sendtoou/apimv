@@ -1,13 +1,15 @@
-// const express = require('express');
-// const router = express.Router();
-const router = require('express-promise-router')();
+const router = require('express').Router();
+const { verifyToken } = require('../controllers/auth.controller');
 
 const userController = require('../controllers/user.controller')
 
-router.route('/alluser')
-.get(userController.index)
+router.route('/user')
+.get(verifyToken, userController.getAllUser)
 
-router.route('/:userId/packages')
+router.route('/user/:userId')
+.get(verifyToken, userController.getById)
+
+router.route('/user/:userId/packages')
 .get(userController.getUserPackages)
 .post(userController.newUserPackage);
 

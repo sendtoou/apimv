@@ -2,9 +2,23 @@ const User = require('../models/user.model')
 const Package = require('../models/package.model')
 
 module.exports = {
-  index: async (req, res, next) => {
-    const users = await User.find({});
-    res.status(200).json(users);
+  getAllUser: async (req, res, next) => {
+    try {
+      const users = await User.find({});
+      res.status(200).json(users);
+    } catch(e) {
+      return res.status(401).json({ message:'Unable to get User' + e}) 
+    }
+  },
+  getById: async (req, res, next) => {
+    try {
+      const { userId } = req.params // userId (req.params ต้องตรงกับ route)
+      console.log('userid:', userId)
+      const user = await User.findById(userId)
+      res.status(200).json(user)
+    }catch(e) {
+      return res.status(401).json({ message:'Unable to get User by id' + e}) 
+    }
   },
   getUserPackages: async (req, res, next) => {
     const { userId } = req.params;

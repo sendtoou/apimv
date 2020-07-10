@@ -3,44 +3,6 @@ const crypto = require('crypto')
 const decode = require('jwt-decode')
 const User = require('../models/user.model')
 
-// let verifyssssToken = async(req, res, next) => {
-//   try{
-//     const refreshToken = req.header('x-refresh-token')
-//     const accessToken = req.header('x-access-token')
-//     const decoded = decode(accessToken);
-//     const userId = decoded.uid;
-//     const user = await User.findByIdAndToken(userId, refreshToken)
-//     if(!user) {
-//       return res.status(400).json({ message: 'refreshtoken and userid invalid'})
-//     }
-//     req.userId = userId,
-//     req.userObject = user
-//     req.refreshToken = refreshToken
-
-//     let isSessionValid = false
-//     // find refreshtoken in db and check expire
-//     await user.sessionToken.forEach(async (i) => {
-//       if (i.refreshToken === refreshToken) {
-//         if (await User.hasRefreshTokenExpired(i.expireAt) === false) {
-//           isSessionValid = true
-//         }
-//       }
-//     })
-//     if (isSessionValid) {
-//       next()
-//     }else {
-//       return res.status(401).json({message: 'refreshtoken has expired or invalid'})
-//     }
-//   }catch(e) {
-//     return res.status(401).json({ message:'Unable to register' + e}) 
-//   }
-// }
-
-
-
-
-
-
 module.exports = {
   verifySessionToken: async(req, res, next) => {
     try{
@@ -50,7 +12,7 @@ module.exports = {
       const userId = decoded.uid;
       const user = await User.findByIdAndToken(userId, refreshToken)
       if(!user) {
-        return res.status(400).json({ message: 'refreshtoken and userid invalid'})
+        return res.status(401).json({ message: 'refreshtoken or userid invalid'})
       }
       req.userId = userId,
       req.userObject = user
@@ -90,7 +52,7 @@ module.exports = {
     try{
       const token = req.headers['x-access-token'];
       if (!token) {
-        return res.status(401).json({ message:'Unauthorized request naja, จะขอข้อมูลต้องแนบtokenมาด้วย'})
+          return res.status(401).json({ message:'Unauthorized request naja, token must be provided'})
       } else {
         jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
           if (err) {
@@ -123,13 +85,13 @@ module.exports = {
       await newUser.save()
       const refreshToken = await newUser.createSessionToken() //refreshToken returned.
       console.log('refreshToken:', refreshToken)
-      const accessToken = await newUser.genAccessToken()
-      console.log('accessToken:', accessToken)
+      const token = await newUser.genAccessToken()
+      console.log('accessToken:', token)
       //response with accesstoken also accesstoken and refreshtoken in header
       res
-      .header('x-access-token', accessToken)
+      .header('x-access-token', token)
       .header('x-refresh-token', refreshToken)
-      .status(200).json({ accessToken })
+      .status(200).json({ token })
     } catch(e) {
       return res.status(401).json({ message:'Unable to register' + e}) 
     }
@@ -142,11 +104,11 @@ module.exports = {
       const user =  await User.findByCredentials(email, password)
       if (!user) { return res.status(403).json({ resCode: '1000', resMessage: 'credentails not match'}) }
       const refreshToken = await user.createSessionToken() //refreshToken returned.
-      const accessToken = await user.genAccessToken()
+      const token = await user.genAccessToken()
       res
-      .header('x-access-token', accessToken)
+      .header('x-access-token', token)
       .header('x-refresh-token', refreshToken)
-      .status(200).json({ accessToken })
+      .status(200).json({ token })
     } catch(e) {
       res.status(500).send(e);
     }

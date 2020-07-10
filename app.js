@@ -26,15 +26,16 @@ app.use((req, res, next) => {
 // if (!process.env.NODE_ENV === 'test'){
 app.use(morgan('dev'))
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.urlencoded({ extended: false }));
 // }
 
 
 /* ROUTES */
 // app.use('/api/v1', user)
+app.use('/api', require('./routes/auth'))
+app.use('/api', require('./routes/user'))
 app.use('/api', require('./routes/tab'))
 app.use('/api', require('./routes/serie'))
-app.use('/api', require('./routes/auth'))
 
 /* CATCH ERROR 4O4 */
 app.use((req, res, next) => {

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema
 
 const packageSchema = new Schema({
@@ -9,5 +9,5 @@ const packageSchema = new Schema({
     ref:'user'
   }
 });
-const package = mongoose.model('package', packageSchema)
-module.exports = package
+const Package = mongoose.model('package', packageSchema)
+module.exports = Package

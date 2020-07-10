@@ -6,7 +6,7 @@ const { verifySessionToken, verifyToken } = require('../controllers/auth.control
 // router.route('/tokencheck')
 // .get(authController.ensureAuthen)
 
-router.route('/accesstoken')
+router.route('/token')
 .get(verifySessionToken, authController.accessToken)
 
 router.route('/register')

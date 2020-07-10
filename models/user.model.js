@@ -81,7 +81,7 @@ userSchema.methods.isValidPassword = async function(newPassword) {
 userSchema.methods.genAccessToken = async function() {
   try {
     const user = this
-    const accessToken = await jwt.sign({ uid: user._id.toHexString(), role: user.role }, process.env.JWT_SECRET, { expiresIn: '3m' });
+    const accessToken = await jwt.sign({ uid: user._id.toHexString(), role: user.role }, process.env.JWT_SECRET, { expiresIn: '10s' });
     return accessToken
   }catch(e) {
     throw new Error(e)
@@ -108,8 +108,11 @@ userSchema.statics.hasRefreshTokenExpired = (expireAt) => {
 }
 
 let genRefreshTokenExpiryTime = () => {
-  const daysUntilExpire = "1";
-  const secondsUntilExpire = ((daysUntilExpire * 24) * 60) * 60;
+  // let daysUntilExpire = "1";
+  // let secondsUntilExpire = ((daysUntilExpire * 24) * 60) * 60;
+  // return ((Date.now() / 1000) + secondsUntilExpire);
+ 
+  let secondsUntilExpire = 50 // 50 second
   return ((Date.now() / 1000) + secondsUntilExpire);
 }
 
